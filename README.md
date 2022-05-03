@@ -14,6 +14,7 @@ Pages
 - Login page
 - User page
 - Not authorized page (in case of timeout)
+- Info page
 
 Waiting on Ricky for:
 - BHL color Pallete
