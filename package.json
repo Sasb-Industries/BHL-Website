@@ -1,0 +1,26 @@
+{
+  "name": "bhl-website",
+  "version": "1.0.0",
+  "description": "Repository that will house all things BHL online",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon src/server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Sasb-Industries/BHL-Website.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Sasb-Industries/BHL-Website/issues"
+  },
+  "homepage": "https://github.com/Sasb-Industries/BHL-Website#readme",
+  "dependencies": {
+    "express": "^4.18.1"
+  },
+  "devDependencies": {
+    "dotenv": "^16.0.0",
+    "nodemon": "^2.0.16"
+  }
+}
