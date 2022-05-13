@@ -82,26 +82,3 @@ function ResetAuth()
 {
     ResetAuth();
 })();
-
-
-
-
-
-function encryptText() {
-  
-    const form = document.forms[0];
-    
-    let title=
-     document.getElementById("titleId");  
-       
-    title.innerHTML = "Encrypted text";
-    
-    let shift= Number(form.shift.value); 
-       
-    let sourceText =  
-      form.sourceText.value;       
-       
-    form.sourceText.value 
-      = [... sourceText ].map(char =>
-        encrypt(char, shift)).join('');
-   }
