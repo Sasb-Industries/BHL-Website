@@ -1,6 +1,7 @@
 const HOME_PAGE = "home";
 const LOGIN_PAGE = "login";
 const _404_PAGE = "404";
+const COOKIE_NAME = 'BHLauth' //TODO, remove this from front end
 // const _PAGE = "home";
 // const HOME_PAGE = "home";
 
@@ -19,7 +20,6 @@ async function PostData(url, auth, data = {})
     return response.json();
 }
 
-
 function JSONtoObj(json)
 {
     return JSON.parse(json);
@@ -30,9 +30,9 @@ function ObjtoJson(obj)
     return JSON.stringify(obj);
 }
 
-function GetAuth()
+function GetAuthCookie()
 {
-    let name = "auth=";
+    let name = COOKIE_NAME + "=";
     let decodedCookie = decodeURIComponent(document.cookie);
     let ca = decodedCookie.split(';');
     for (let i = 0; i < ca.length; i++)
@@ -44,16 +44,64 @@ function GetAuth()
         }
         if (c.indexOf(name) == 0)
         {
-            return c.substring(name.length, c.length);
+            return JSONtoObj(c.substring(name.length, c.length));
         }
     }
     return "";
 }
 
-function SetAuth(cvalue, exhours)
+// takes in object to set as cookie
+function SetAuthCookie(value, exhours)
 {
     const d = new Date();
     d.setTime(d.getTime() + (exhours * 3600 * 1000));
-    let expires = "expires=" + d.toUTCString();
-    document.cookie = "auth=" + cvalue + ";" + expires + ";path=/";
+    let expires = "expires=" + d.toUTCString() + ';';
+
+    let name = COOKIE_NAME + '=' + JSON.stringify(value) + ';';
+    let domain = '';  //'domain=.' + window.location.host.toString() + ';'; //TODO -> make it domain specific
+    let path = 'path=/;';
+
+    let cookie = [name, domain, expires, path].join('');
+    document.cookie = cookie;
 }
+
+function ResetAuth()
+{
+    let cookie = GetAuthCookie();
+
+    if(cookie !== "")
+    {
+        SetAuthCookie(cookie, 1);
+    }
+}
+
+
+
+// RUNS everytime a page is loaded
+(function ()
+{
+    ResetAuth();
+})();
+
+
+
+
+
+function encryptText() {
+  
+    const form = document.forms[0];
+    
+    let title=
+     document.getElementById("titleId");  
+       
+    title.innerHTML = "Encrypted text";
+    
+    let shift= Number(form.shift.value); 
+       
+    let sourceText =  
+      form.sourceText.value;       
+       
+    form.sourceText.value 
+      = [... sourceText ].map(char =>
+        encrypt(char, shift)).join('');
+   }

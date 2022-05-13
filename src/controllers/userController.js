@@ -1,31 +1,43 @@
+'use strict';
 
-// test user
+/* --- test data --- */
 const users = [{ id: "123", username: "eli", password: "eli", auth: "asdf" }];
+/* --- test data --- */
 
+const dbUser = require("../database/dbUser");
+const dotenv = require('dotenv');
+const router = require("../routes/userRoute");
+dotenv.config();
+const COOKIE_NAME = process.env.COOKIE_NAME;
 
-exports.VerifyUser = (username, password) =>
+exports.VerifyUser = (username, password) => // TODO -> encrypt cookie for sending back to client
 {
-    let authobject = { id: "0", username: username, password: password, auth: "" };
-    for (let i = 0; i < users.length; i++)
+    return dbUser.GetUser(username, password);
+}
+
+exports.ParseCookies = (cookies) =>
+{
+    if (cookies === undefined) return "";
+
+    const temp = cookies.split(';');
+    for (let i = 0; i < temp.length; i++)
     {
-        if (username === users[i].username
-            && password === users[i].password)
+        let c = temp[i].trim().split('=');
+        if (c[0] === COOKIE_NAME)
         {
-            authobject.id = users[i].id;
-            authobject.auth = users[i].auth;
-            break;
+            return c[1];
         }
     }
 
-    return authobject;
+    return "";
 }
 
-exports.ParseCookies = (cookie = '') =>
-    cookie
-        .split(';')
-        .map(v => v.split('='))
-        .map(([k, ...vs]) => [k, vs.join('=')])
-        .reduce((acc, [k, v]) => {
-            acc[k.trim()] = decodeURIComponent(v);
-            return acc;
-        }, {});
+function Encypt()// TODO
+{
+
+}
+
+function Decrypt()// TODO
+{
+
+}

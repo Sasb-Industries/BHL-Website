@@ -1,12 +1,16 @@
 // npm run dev -> to run nodemon
 "use strict";
 
-const PORT = 3000;
-
 const express = require('express');
 const app = express();
 app.use(express.json());
 const path = require('path');
+const dotenv = require('dotenv');
+dotenv.config();
+const PORT = process.env.PORT;
+
+// const routes
+const userRoute = require("./routes/userRoute");
 
 // setup controllers
 const userController = require("./controllers/userController");
@@ -14,41 +18,35 @@ const userController = require("./controllers/userController");
 // Express Middleware for serving static files
 app.use(express.static(path.join(__dirname, 'public')));
 
-// BEGIN SETUP LOGIN
+// BEGIN SETUP API ROUTES
+// user route will authenticate inside js file
+app.use("/api/user", userRoute);
+
+
+// SETUP WEBPAGES
 app.get('/login', (req, res) =>
 {
     res.sendFile(__dirname + '/public/login.html');
 });
 
-// see if user is available
-app.get('/api/login/:username/:password', (req, res) =>
-{
-    let result = userController.VerifyUser(req.params.username, req.params.password)
-    if(result.id > 0)
-    {
-        // req.session.accessToken = true;
-    }
-    res.json(result);
-});
+// TODO -> setup routes to do all the api junk
 
 
 // // Catches access to all other pages
-// app.use((req, res, next) =>
-// {
-//     console.log(userController.ParseCookies(req.headers.cookie));
-//     // requiring a valid access token
-//     // if (!req.session.accessToken)
-//     // {
-//     //     res.redirect('/login');
-//     // }
-//     // else
-//     // {
-//     //     next();
-//     // }
-//     //res.redirect('/login');
-
-//     next();
-// });
+// Requires them to have the BHLauth cookie
+// TODO -> make this better
+app.use((req, res, next) =>
+{
+    let cookie = userController.ParseCookies(req.headers.cookie);
+    if (cookie === undefined || cookie === "")
+    {
+        res.redirect('/login');
+    }
+    else
+    {
+        next();
+    }
+});
 // END SETUP LOGIN
 
 // BEGIN SETUP ROUTES
@@ -67,18 +65,19 @@ app.get('/404', (req, res) =>
     res.sendFile(__dirname + '/public/404.html');
 });
 
-// if not found we should send to home page
+// if not found we should send to 404
 app.get('*', (req, res) =>
 {
     res.redirect("/404");
 });
-// END SETUP ROUTES
 
-// BEGIN SETUP APIs
-// END SETUP APIs
-
-app.listen(PORT, () =>
+app.listen(PORT, error =>
 {
+    if(error)
+    {
+        console.log("ERROR", error);
+    }
+
     console.log('listening on : ', PORT);
 });
 
