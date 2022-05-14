@@ -54,7 +54,7 @@ form {
     height: 400px;
     width: 400px;
     border: 3px solid #414926;
-    margin: auto;
+    margin: 100px auto;
     display: flex;
     flex-flow: column;
     border-radius: 10%;
@@ -83,6 +83,12 @@ input {
 label {
     font-size: 20px;
     margin-left: 18%;
+}
+
+button {
+    width: 100px;
+    align-self: center;
+    margin-top: 20px;
 }
 
 /* Here is the color palette for the page and subsequent pages
