@@ -46,6 +46,14 @@ table {
 /* End of CSS Reset*/
 
 
-nav {
-    
+ul {
+	display: flex;
+	justify-content: space-between;
+	margin: 10px;
+	border: 1px solid black;
+}
+
+li {
+	padding: 20px 50px;
+	border: 1px solid red;
 }
