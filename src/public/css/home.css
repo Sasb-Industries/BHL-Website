@@ -45,11 +45,22 @@ table {
 
 /* End of CSS Reset*/
 
+html {
+	padding: 10px;
+}
+
+.top {
+	display: flex;
+	justify-content: space-between;
+}
+
+img {
+	height: 40px;
+}
 
 ul {
 	display: flex;
 	justify-content: space-between;
-	margin: 10px;
 	border: 1px solid black;
 }
 
