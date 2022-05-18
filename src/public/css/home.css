@@ -47,11 +47,13 @@ table {
 
 html {
 	padding: 10px;
+	background-color: #FDF6E3;
 }
 
 .top {
 	display: flex;
 	justify-content: space-between;
+	margin-bottom: 10px;
 }
 
 img {
@@ -64,7 +66,39 @@ ul {
 	border: 1px solid black;
 }
 
-li {
+ul > li {
 	padding: 20px 50px;
+	border: 1px solid red;
+	color: #1E509A;
+}
+
+a:visited { 
+	text-decoration: none;
+	color:#1E509A;
+}
+
+a {
+	text-decoration: none;
+}
+
+.performers, .pwr {
+	border: 1px solid black;
+	width: 20%;
+}
+
+ol > li {
+	padding: 5px 10px;
+}
+
+main {
+	border: 1px solid black;
+	display: flex;
+	margin-top: 10px;
+	justify-content: space-between;
+}
+
+article {
+	width: 55%;
+	height: 300px;
 	border: 1px solid red;
 }
