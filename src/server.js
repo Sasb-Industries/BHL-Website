@@ -65,6 +65,11 @@ app.get('/404', (req, res) =>
     res.sendFile(__dirname + '/public/404.html');
 });
 
+app.get('/user', (req, res) =>
+{
+    res.sendFile(__dirname + '/public/user.html');
+});
+
 // if not found we should send to 404
 app.get('*', (req, res) =>
 {

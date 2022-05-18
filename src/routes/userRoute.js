@@ -11,7 +11,7 @@ const {Authenticate} = require("../controllers/authController");
 router.route('/login/:username/:password').get( (req, res) =>
 {
     let result = userController.VerifyUser(req.params.username, req.params.password)
-    res.json(result);
+    res.send(result);
 });
 
 // any other call should be authenticated

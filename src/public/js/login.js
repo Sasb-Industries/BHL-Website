@@ -28,7 +28,13 @@ function login()
     {
         let user = result;
 
-        if (user.length > 0)
+        if(user === undefined)
+        {
+            form.password.value = "";
+            SetError("User not found");
+        }
+
+        if (user.id > 0)
         {
             SetAuthCookie(user, 1);
             window.location.href = HOME_PAGE;

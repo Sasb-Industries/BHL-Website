@@ -1,10 +1,15 @@
 const HOME_PAGE = "home";
 const LOGIN_PAGE = "login";
 const _404_PAGE = "404";
-const COOKIE_NAME = 'BHLauth' //TODO, remove this from front end
+const COOKIE_NAME = 'BHLauth'; //TODO, remove this from front end
 // const _PAGE = "home";
 // const HOME_PAGE = "home";
 
+// RUNS everytime a page is loaded
+(function ()
+{
+    ResetAuth();
+})();
 
 async function PostData(url, auth, data = {})
 {
@@ -12,8 +17,7 @@ async function PostData(url, auth, data = {})
     const response = await fetch(url, {
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json',
-            'Authorization': auth
+            'Content-Type': 'application/json'
         },
         body: JSON.stringify(data)
     });
@@ -57,7 +61,7 @@ function SetAuthCookie(value, exhours)
     d.setTime(d.getTime() + (exhours * 3600 * 1000));
     let expires = "expires=" + d.toUTCString() + ';';
 
-    let name = COOKIE_NAME + '=' + JSON.stringify(value) + ';';
+    let name = COOKIE_NAME + '=' + ObjtoJson(value) + ';';
     let domain = '';  //'domain=.' + window.location.host.toString() + ';'; //TODO -> make it domain specific
     let path = 'path=/;';
 
@@ -74,34 +78,3 @@ function ResetAuth()
         SetAuthCookie(cookie, 1);
     }
 }
-
-
-
-// RUNS everytime a page is loaded
-(function ()
-{
-    ResetAuth();
-})();
-
-
-
-
-
-function encryptText() {
-  
-    const form = document.forms[0];
-    
-    let title=
-     document.getElementById("titleId");  
-       
-    title.innerHTML = "Encrypted text";
-    
-    let shift= Number(form.shift.value); 
-       
-    let sourceText =  
-      form.sourceText.value;       
-       
-    form.sourceText.value 
-      = [... sourceText ].map(char =>
-        encrypt(char, shift)).join('');
-   }
