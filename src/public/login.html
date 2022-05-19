@@ -1,51 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/login.css">
+    <script src="/js/base.js"></script>
+    <script src="/js/login.js"></script>
     <title>BHL Login</title>
 </head>
 
-    <body>
+<body onload="LoadPage()">
 
-    <form>
+    <form name="loginForm">
 
         <h1>Login</h1>
+        <h4 id="error" class="error">User Not Found</h4>
         <label for="username">Username:</label>
         <input id="username" type="text" name="username">
 
         <label for="password">Password:</label>
         <input id="password" type="password" name="password">
 
-        <button type="button">Log In</button>
-
-    </form>
-
-    </Body>
-
-<!--  Commented out original code. delete after you look over and merge
-<html>
-<header>
-    <title>Login</title>
-    <script src="/js/base.js"></script>
-    <script src="/js/login.js"></script>
-</header>
-
-<body>
-    <h4 id="error" style="display: none; color: red;"></h4>
-    <form name="loginForm">
-        <h3>Login Here</h3>
-
-        <label for="username">Username</label>
-        <input type="text" placeholder="Username" id="username"/>
-
-        <label for="password">Password</label>
-        <input type="password" placeholder="Password" id="password"/>
-
         <button id="loginBtn" type='button' onclick="login()">Log In</button>
-    </form>
-</body>
 
-</html> -->
+    </form>
+
+</body>
+</html>

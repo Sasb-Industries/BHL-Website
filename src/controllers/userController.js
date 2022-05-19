@@ -12,7 +12,21 @@ const COOKIE_NAME = process.env.COOKIE_NAME;
 
 exports.VerifyUser = (username, password) => // TODO -> encrypt cookie for sending back to client
 {
-    return dbUser.GetUser(username, password);
+    let user = dbUser.GetUser(username, password);
+    if (user.id > 0)
+    {
+        let obj = []
+
+        obj.push("UserName=" + user.username)
+        obj.push("Auth=" + user.auth)
+        obj.push(COOKIE_NAME + "=" + "LoggedIn");
+        console.log(obj);
+        return obj;
+    }
+    else
+    {
+        return undefined;
+    }
 }
 
 exports.ParseCookies = (cookies) =>

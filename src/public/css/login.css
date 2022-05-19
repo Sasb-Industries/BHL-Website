@@ -91,6 +91,14 @@ button {
     margin-top: 20px;
 }
 
+.error {
+    display: none;
+    color:red;
+    align-self: center;
+    font-style: bold;
+    padding: 10px;
+}
+
 /* Here is the color palette for the page and subsequent pages
 
 1. #CCD5AE

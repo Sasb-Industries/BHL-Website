@@ -9,66 +9,21 @@ const dotenv = require('dotenv');
 dotenv.config();
 const PORT = process.env.PORT;
 
-// const routes
-const userRoute = require("./routes/userRoute");
-
-// setup controllers
-const userController = require("./controllers/userController");
+//#region const routes
+const apiUserRoute = require("./routes/userRoute");
+const webRoute = require("./routes/webRoute");
+//#endregion
 
 // Express Middleware for serving static files
-app.use(express.static(path.join(__dirname, 'public')));
-
-// BEGIN SETUP API ROUTES
-// user route will authenticate inside js file
-app.use("/api/user", userRoute);
-
-
-// SETUP WEBPAGES
-app.get('/login', (req, res) =>
-{
-    res.sendFile(__dirname + '/public/login.html');
-});
+app.use('/css',express.static(path.join(__dirname, 'public/css')));
+app.use('/images',express.static(path.join(__dirname, 'public/images')));
+app.use('/js',express.static(path.join(__dirname, 'public/js')));
 
 // TODO -> setup routes to do all the api junk
+app.use("/api/user", apiUserRoute);
 
-
-// // Catches access to all other pages
-// Requires them to have the BHLauth cookie
-// TODO -> make this better
-app.use((req, res, next) =>
-{
-    let cookie = userController.ParseCookies(req.headers.cookie);
-    if (cookie === undefined || cookie === "")
-    {
-        res.redirect('/login');
-    }
-    else
-    {
-        next();
-    }
-});
-// END SETUP LOGIN
-
-// BEGIN SETUP ROUTES
-app.get('/', (req, res) =>
-{
-    res.redirect("/home");
-});
-
-app.get('/home', (req, res) =>
-{
-    res.sendFile(__dirname + '/public/home.html');
-});
-
-app.get('/404', (req, res) =>
-{
-    res.sendFile(__dirname + '/public/404.html');
-});
-
-app.get('/user', (req, res) =>
-{
-    res.sendFile(__dirname + '/public/user.html');
-});
+// webpages routing
+app.use("/", webRoute);
 
 // if not found we should send to 404
 app.get('*', (req, res) =>

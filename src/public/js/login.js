@@ -1,22 +1,24 @@
 "use strict";
 
-
-document.body.addEventListener("keypress", (event) =>
+function LoadPage()
 {
-    // If the user presses the "Enter" key on the keyboard
-    if (event.key === "Enter")
+    document.body.addEventListener("keypress", (event) =>
     {
-        // event.preventDefault();
-        document.getElementById("loginBtn").click();
-    }
-});
+        // If the user presses the "Enter" key on the keyboard
+        if (event.key === "Enter")
+        {
+            // event.preventDefault();
+            document.getElementById("loginBtn").click();
+        }
+    });
+}
 
 function login()
 {
     ClearError();
     let form = document.loginForm;
     
-    if(IsInValidInputFeild(form.username) || IsInValidInputFeild(form.password))
+    if(IsInValidInputField(form.username) || IsInValidInputField(form.password))
     {
         return;
     }
@@ -26,22 +28,18 @@ function login()
 
     GetLoginData(apiurl).then(result =>
     {
-        let user = result;
-
-        if(user === undefined)
+        if(result === undefined)
         {
-            form.password.value = "";
             SetError("User not found");
         }
 
-        if (user.id > 0)
+        if (result.length > 0)
         {
-            SetAuthCookie(user, 1);
+            SetCookies(result);
             window.location.href = HOME_PAGE;
         }
         else
         {
-            form.password.value = "";
             SetError("User not found");
         }
     });
@@ -65,6 +63,7 @@ async function GetLoginData(url)
 
 function SetError(s)
 {
+    document.loginForm.password.value = "";
     let error = document.getElementById("error");
     error.textContent = s;
     error.style.display = "block";
@@ -79,11 +78,11 @@ function ClearError()
     document.loginForm.username.style = "";
 }
 
-function IsInValidInputFeild(feild)
+function IsInValidInputField(field)
 {
-    if (feild.value === "" || feild.value === undefined)
+    if (field.value === "" || field.value === undefined)
     {
-        feild.style.borderColor="red";
+        field.style.borderColor="yellow";
         return true;    
     }
     

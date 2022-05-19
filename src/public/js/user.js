@@ -2,6 +2,6 @@
 
 function LoadPage()
 {
-    let user = GetAuthCookie();
-    document.title = "User - " + user.username;
+    let user = GetCookie("UserName");
+    document.title = "User - " + user;
 }

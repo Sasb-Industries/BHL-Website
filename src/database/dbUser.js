@@ -20,7 +20,7 @@ exports.GetUser = (username, password) =>
         }
     }
 
-    return userObj.id > 0 ? JSON.stringify(userObj) : "";
+    return userObj;
 }
 
 exports.GetUserByID = (id) =>

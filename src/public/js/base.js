@@ -1,14 +1,13 @@
+"use strict";
+
 const HOME_PAGE = "home";
 const LOGIN_PAGE = "login";
 const _404_PAGE = "404";
-const COOKIE_NAME = 'BHLauth'; //TODO, remove this from front end
-// const _PAGE = "home";
-// const HOME_PAGE = "home";
 
 // RUNS everytime a page is loaded
 (function ()
 {
-    ResetAuth();
+    ResetCookies();
 })();
 
 async function PostData(url, auth, data = {})
@@ -34,9 +33,9 @@ function ObjtoJson(obj)
     return JSON.stringify(obj);
 }
 
-function GetAuthCookie()
+function GetCookie(cookiename)
 {
-    let name = COOKIE_NAME + "=";
+    let name = cookiename + "=";
     let decodedCookie = decodeURIComponent(document.cookie);
     let ca = decodedCookie.split(';');
     for (let i = 0; i < ca.length; i++)
@@ -48,33 +47,63 @@ function GetAuthCookie()
         }
         if (c.indexOf(name) == 0)
         {
-            return JSONtoObj(c.substring(name.length, c.length));
+            return c.substring(name.length, c.length);
         }
     }
     return "";
 }
 
-// takes in object to set as cookie
-function SetAuthCookie(value, exhours)
+function SetCookies(cookies)
 {
+    cookies.forEach(element =>
+    {
+        if(element.length > 0 || element !== "" || element !== undefined)
+        {
+            SetCookie(element, 1);
+        }
+    });
+}
+
+// takes in object to set as cookie
+function SetCookie(value, exhours)
+{
+    if(value.length === 0 || value === "" || value === undefined)
+    {
+        return;
+    }
+
     const d = new Date();
     d.setTime(d.getTime() + (exhours * 3600 * 1000));
-    let expires = "expires=" + d.toUTCString() + ';';
 
-    let name = COOKIE_NAME + '=' + ObjtoJson(value) + ';';
+    value = value.trim() + ";";
+    let expires = "expires=" + d.toUTCString() + ';';
     let domain = '';  //'domain=.' + window.location.host.toString() + ';'; //TODO -> make it domain specific
     let path = 'path=/;';
 
-    let cookie = [name, domain, expires, path].join('');
+    let cookie = [value, domain, expires, path].join('');
     document.cookie = cookie;
 }
 
-function ResetAuth()
+function ResetCookies() // TODO only reset our cookies, dont care about others, maybe not a TODO
 {
-    let cookie = GetAuthCookie();
+    let cookies = document.cookie.split(";");
 
-    if(cookie !== "")
+    if (cookies === undefined)
     {
-        SetAuthCookie(cookie, 1);
+        return;
     }
+
+    cookies.forEach(element =>
+    {
+        let name = element.substring(0, element.indexOf("=")).trim();
+        let value = GetCookie(name);
+
+        if(name === '' || name === undefined
+            || value === '' || value === undefined)
+        {
+            return;
+        }
+
+        SetCookie(name + "=" + value, 1);
+    });
 }

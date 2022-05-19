@@ -1,6 +1,8 @@
 "use strict";
 
-/* --- base -> /api/user path ---*/
+/*
+route -> '/api/user'
+*/
 
 const express = require('express');
 const router = express.Router();
