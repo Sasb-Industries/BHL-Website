@@ -8,6 +8,7 @@ const _404_PAGE = "404";
 (function ()
 {
     ResetCookies();
+    LoadNav();
 })();
 
 async function PostData(url, auth, data = {})
@@ -57,7 +58,7 @@ function SetCookies(cookies)
 {
     cookies.forEach(element =>
     {
-        if(element.length > 0 || element !== "" || element !== undefined)
+        if (element.length > 0 || element !== "" || element !== undefined)
         {
             SetCookie(element, 1);
         }
@@ -67,7 +68,7 @@ function SetCookies(cookies)
 // takes in object to set as cookie
 function SetCookie(value, exhours)
 {
-    if(value.length === 0 || value === "" || value === undefined)
+    if (value.length === 0 || value === "" || value === undefined)
     {
         return;
     }
@@ -98,7 +99,7 @@ function ResetCookies() // TODO only reset our cookies, dont care about others, 
         let name = element.substring(0, element.indexOf("=")).trim();
         let value = GetCookie(name);
 
-        if(name === '' || name === undefined
+        if (name === '' || name === undefined
             || value === '' || value === undefined)
         {
             return;
@@ -106,4 +107,30 @@ function ResetCookies() // TODO only reset our cookies, dont care about others, 
 
         SetCookie(name + "=" + value, 1);
     });
+}
+
+function LoadNav()
+{
+    try
+    {
+        fetch('nav')
+            .then(res => res.text())
+            .then(text =>
+            {
+                let x = document.getElementById("replaceNav");
+
+                if (x === null || text === "" || text === null)
+                {
+                    return;
+                }
+                console.log(x);
+                
+                x.innerHTML = text;
+            });
+    }
+    catch(err)
+    {
+        console.log(err);
+        // TODO -> make an error thing
+    }
 }

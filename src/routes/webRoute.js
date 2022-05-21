@@ -43,7 +43,6 @@ router.route('/').get((req, res) =>
     res.redirect("/home");
 });
 
-// see if user is available
 router.route('/home').get((req, res) =>
 {
     res.sendFile(path.resolve('src/public/home.html'));
@@ -62,6 +61,11 @@ router.route('/user').get((req, res) =>
 router.route('/scores').get((req, res) =>
 {
     res.sendFile(path.resolve('src/public/scores.html'));
+});
+
+router.route('/nav').get((req, res) =>
+{
+    res.sendFile(path.resolve('src/public/nav.html'));
 });
 
 // if not found we should send to 404
