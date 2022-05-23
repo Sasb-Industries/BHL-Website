@@ -39,5 +39,5 @@ exports.GetUserByID = (id) =>
         }
     }
 
-    return userObj.id > 0 ? JSON.stringify(userObj) : "";
+    return userObj;
 }

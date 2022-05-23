@@ -58,7 +58,7 @@ function SetCookies(cookies)
 {
     cookies.forEach(element =>
     {
-        if (element.length > 0 || element !== "" || element !== undefined)
+        if (IsNullOrEmpty(element))
         {
             SetCookie(element, 1);
         }
@@ -68,7 +68,7 @@ function SetCookies(cookies)
 // takes in object to set as cookie
 function SetCookie(value, exhours)
 {
-    if (value.length === 0 || value === "" || value === undefined)
+    if (IsNullOrEmpty(value.length))
     {
         return;
     }
@@ -89,21 +89,16 @@ function ResetCookies() // TODO only reset our cookies, dont care about others, 
 {
     let cookies = document.cookie.split(";");
 
-    if (cookies === undefined)
-    {
+    if (IsNullOrEmpty(cookies))
         return;
-    }
 
     cookies.forEach(element =>
     {
         let name = element.substring(0, element.indexOf("=")).trim();
         let value = GetCookie(name);
 
-        if (name === '' || name === undefined
-            || value === '' || value === undefined)
-        {
+        if (IsNullOrEmpty(name) || IsNullOrEmpty(value))
             return;
-        }
 
         SetCookie(name + "=" + value, 1);
     });
@@ -119,7 +114,7 @@ function LoadNav()
             {
                 let x = document.getElementById("replaceNav");
 
-                if (x === null || text === "" || text === null)
+                if (IsNullOrEmpty(x) || IsNullOrEmpty(text))
                 {
                     return;
                 }
@@ -133,4 +128,22 @@ function LoadNav()
         console.log(err);
         // TODO -> make an error thing
     }
+}
+
+function IsNullOrEmpty(obj)
+{
+    if(obj === null || obj === undefined)
+        return true;    
+
+    // empty string
+    if(typeof(obj) === 'string')
+        if(obj.trim() === "") 
+            return true;
+
+    // object has a length and is zero
+    if(obj.length !== undefined)
+        if(obj.length === 0) 
+            return true;
+
+    return false;
 }

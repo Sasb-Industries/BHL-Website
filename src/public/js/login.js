@@ -19,21 +19,14 @@ function login()
     let form = document.loginForm;
     
     if(IsInValidInputField(form.username) || IsInValidInputField(form.password))
-    {
         return;
-    }
 
     let input = { username: form.username.value, password: form.password.value }
     let apiurl = `/api/user/login/${input.username}/${input.password}`;
 
     GetLoginData(apiurl).then(result =>
     {
-        if(result === undefined)
-        {
-            SetError("User not found");
-        }
-
-        if (result.length > 0)
+        if (!IsNullOrEmpty(result))
         {
             SetCookies(result);
             window.location.href = HOME_PAGE;
@@ -80,7 +73,7 @@ function ClearError()
 
 function IsInValidInputField(field)
 {
-    if (field.value === "" || field.value === undefined)
+    if (IsNullOrEmpty(field.value))
     {
         field.style.borderColor="yellow";
         return true;    

@@ -8,18 +8,15 @@ const express = require('express');
 const router = express.Router();
 const path = require('path');
 const userController = require("../controllers/userController");
+const base = require("../controllers/baseController");
 
 router.route('/login').get((req, res) =>
 {
     let cookie = userController.ParseCookies(req.headers.cookie);
-    if (cookie === undefined || cookie === "")
-    {
+    if (base.IsNullOrEmpty(cookie))
         res.sendFile(path.resolve('src/public/login.html'));
-    }
     else
-    {
         res.redirect('/home');
-    }
 });
 
 // Catches access to all other pages
@@ -28,14 +25,10 @@ router.route('/login').get((req, res) =>
 router.use((req, res, next) =>
 {
     let cookie = userController.ParseCookies(req.headers.cookie);
-    if (cookie === undefined || cookie === "")
-    {
+    if (base.IsNullOrEmpty(cookie))
         res.redirect('/login');
-    }
     else
-    {
         next();
-    }
 });
 
 router.route('/').get((req, res) =>

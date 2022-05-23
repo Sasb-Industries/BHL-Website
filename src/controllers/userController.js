@@ -6,8 +6,9 @@ const users = [{ id: "123", username: "eli", password: "eli", auth: "asdf" }];
 
 const dbUser = require("../database/dbUser");
 const dotenv = require('dotenv');
-const router = require("../routes/userRoute");
 dotenv.config();
+const router = require("../routes/userRoute");
+const base = require("/baseController");
 const COOKIE_NAME = process.env.COOKIE_NAME;
 
 exports.VerifyUser = (username, password) => // TODO -> encrypt cookie for sending back to client
@@ -25,25 +26,24 @@ exports.VerifyUser = (username, password) => // TODO -> encrypt cookie for sendi
     }
     else
     {
-        return undefined;
+        return null;
     }
 }
 
 exports.ParseCookies = (cookies) =>
 {
-    if (cookies === undefined) return "";
+    if (base.IsNullOrEmpty(cookies))
+        return null;
 
     const temp = cookies.split(';');
     for (let i = 0; i < temp.length; i++)
     {
         let c = temp[i].trim().split('=');
         if (c[0] === COOKIE_NAME)
-        {
             return c[1];
-        }
     }
 
-    return "";
+    return null;
 }
 
 function Encypt()// TODO
